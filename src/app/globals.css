@@ -60,15 +60,141 @@
   --ring: 262 83% 58%;
 }
 
-.navbar {
-  @apply hidden md:flex items-center space-x-6;
-}
-
 .navContent {
-  @apply container mx-auto flex h-16 items-center justify-between px-4;
+  @apply container mx-auto flex h-16 items-center px-4;
+  /* Removed justify-between to manage positions manually */
 }
 
+/* The main navbar container (where your links & buttons live) */
+.navbar {
+  @apply hidden md:flex items-center space-x-6 flex-1 justify-center;
+  /* 
+    - flex-1: let this nav expand in the horizontal space
+    - justify-center: center its items (the links) by default
+  */
+}
+
+/* Push the 4th child (Log In) to the right,
+   which also places the 5th child (Sign Up) next to it. */
+.navbar> :nth-child(4) {
+  margin-left: auto;
+}
+
+/* Improve link transitions */
 .navLink {
-  @apply text-sm text-gray-600 hover:text-gray-900;
+  @apply text-sm text-gray-600 hover:text-gray-900 flex items-center justify-center transition-colors duration-200;
 }
 
+/* Slick button animation: slight lift & shadow on hover */
+.navbar button {
+  @apply transition-transform duration-200 ease-in-out;
+}
+
+.navbar button:hover {
+  @apply -translate-y-1 shadow-md;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUpDelayed {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  30% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.animate-slide-up-delayed {
+  animation: slideUpDelayed 1.2s ease-out forwards;
+}
+
+@keyframes fadeInDelayed {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDelayed1 {
+  0% {
+    opacity: 0;
+  }
+
+  60% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDelayed2 {
+  0% {
+    opacity: 0;
+  }
+
+  70% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-delayed {
+  animation: fadeInDelayed 1.2s ease-out forwards;
+}
+
+.animate-fade-in-delayed-1 {
+  animation: fadeInDelayed1 1.4s ease-out forwards;
+}
+
+.animate-fade-in-delayed-2 {
+  animation: fadeInDelayed2 1.6s ease-out forwards;
+}

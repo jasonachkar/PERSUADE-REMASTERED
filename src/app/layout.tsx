@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter} from "next/font/google";
+import { Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
-
-const inter = Inter({subsets:["latin"]})
+import Image from "next/image";
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,26 +18,47 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-gray-100`}
+        className={`${inter.className} bg-white`}
       >
-        <header className="sticky top-0 z-50 w-full bg-white border-b">
-          <div className= 'navContent'>
-            <div className='flex items-center'>
-              <Link href="/" className='text-xl font-bold'>PERSUADE</Link>
-              </div>
-        <nav className='navbar'>
-            
+        <header className="sticky top-0 z-50 w-full bg-white">
+          <div className='navContent flex items-center justify-between px-4 py-3 container mx-auto'>
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center text-xl font-bold space-x-2">
+                <Image
+                  src="/logo.svg"
+                  alt="Persuade"
+                  width={25}
+                  height={25}
+                  className="w-6 h-6"
+                />
+                <span>PERSUADE</span>
+              </Link>
+            </div>
+
+            <nav className='navbar flex items-center justify-center space-x-4 flex-1'>
               <Link href="/" className="navLink">
-              Home
+                <button className="px-4 py-2 rounded-md hover:bg-gray-100">Home</button>
               </Link>
               <Link href="/about" className="navLink">
-              About
+                <button className="px-4 py-2 rounded-md hover:bg-gray-100">About</button>
               </Link>
               <Link href="/pricing" className="navLink">
-              Pricing
-              </Link>    
-          
-        </nav>
+                <button className="px-4 py-2 rounded-md hover:bg-gray-100">Pricing</button>
+              </Link>
+            </nav>
+
+            <div className="flex items-center space-x-3">
+              <Link href="/signin">
+                <button className="bg-gray-50 text-black hover:bg-gray-100 hover:mb-1.5 px-4 py-2 rounded-md">
+                  Sign In
+                </button>
+              </Link>
+              <Link href="/signup">
+                <button className="bg-blue-500 hover:bg-blue-600 hover:mb-1.5 text-white px-4 py-2 rounded-md">
+                  Register
+                </button>
+              </Link>
+            </div>
           </div>
         </header>
         {children}
