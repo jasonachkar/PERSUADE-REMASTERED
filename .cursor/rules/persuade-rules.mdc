@@ -1,107 +1,99 @@
 ---
-description: 
-globs: 
-alwaysApply: false
----
----
-description: 
-globs: 
+description: "Tailored instructions for the Persuade Voice Call Simulator—covering project architecture, component design, and integration specifications for Next.js, GPT-4o AI interactions, and WebRTC voice technologies."
+globs:
+  - "src/app/**/*.{ts,tsx,js,jsx}"
+  - "src/lib/**/*.{ts,tsx,js,jsx}"
+  - "src/components/**/*.{ts,tsx,js,jsx}"
+  - "src/styles/**/*.{css,scss}"
 alwaysApply: true
 ---
 
-# Your rule content
+# Persuade Voice Call Simulator Guidelines
 
-- You can @ files here
-- You can use markdown but dont have to
+## Project Architecture
 
-// Persuade Web App CursorRules
-// A curated set of .cursorrules for maintaining a consistent, organized structure and documentation 
-// in the Persuade voice call simulator repository.
-//
-// General guidelines
-Always use Markdown for documentation and README files.
-Maintain the existing structure of the README.md file when adding or updating content.
+- Persuade is an AI-powered training platform for sales and customer service professionals
+- Implement with Next.js App Router, TypeScript, and server components where appropriate
+- Follow mobile-first responsive design principles with Tailwind CSS
+- Maintain clear separation between UI components, business logic, and data services
 
-// README.md structure
-Maintain the following structure in the README.md file:
-  1. Title and Awesome badge (e.g., "Awesome Persuade")
-  2. Logo (optional, but recommended for branding the Persuade app)
-  3. Short description of the Persuade app (e.g., voice call simulator to train sales/service reps)
-  4. "Why .cursorrules?" section
-  5. Table of Contents
-  6. Rules section
-     - Frontend Frameworks and Libraries
-     - Backend and Full-Stack
-     - Mobile Development
-     - CSS and Styling
-     - State Management
-     - Database and API
-     - Testing
-     - Build Tools and Development
-     - Language-Specific
-     - Other
-  7. How to Use section
-  8. Contributing section
-  9. License section
+## Component Organization
 
-// Organization of rules
-Organize .cursorrules files into the following main categories within the 'rules' directory:
-  - Frontend Frameworks and Libraries
-  - Backend and Full-Stack
-  - Mobile Development
-  - CSS and Styling
-  - State Management
-  - Database and API
-  - Testing
-  - Build Tools and Development
-  - Language-Specific
-  - Other
+- Place reusable UI components in `src/app/components/ui`
+- Put feature-specific components in dedicated folders like `src/app/components/simulation`
+- Dashboard components should visualize training metrics with interactive charts
+- All UI should follow the established design system (indigo/purple gradient theme)
 
-Place each .cursorrules file directly in the 'rules' folder.
-The folder name for each .cursorrules file should describe the category and content of the file.
-Refer to the README in each folder for guidance on naming conventions and descriptions.
+## AI Integration (GPT-4o)
 
-// Naming and formatting
-Use descriptive names for .cursorrules files and their folders, following the pattern: 'technology-focus-cursorrules-prompt-file'
-Maintain alphabetical order within each category in the README.md file
-Use consistent formatting for list items in the README.md file
+- Implement API routes for AI interactions in `src/app/api/ai`
+- Set up streaming responses for natural conversation flow
+- Create proper AI persona configurations for different simulation scenarios
+- Implement conversation history management for contextual awareness
+- Add proper error handling and fallback responses for API failures
 
-// Content guidelines
-When creating or editing .cursorrules files, focus on instructions specific to the Persuade web app:
-//  - Next.js (React, TypeScript) for the frontend
-//  - Node.js/Express.js for the backend
-//  - GPT-4o API integration for real-time call simulation
-//  - AWS EC2 deployment for persistent WebSocket and server processes
-Include comments in .cursorrules files to explain complex rules or provide context
-Use clear and concise language in all documentation and .cursorrules files
-Provide context on the project’s architecture, recommended libraries, and any best practices for real-time voice call functionality
+## WebRTC Implementation
 
-// Optional README for credit and description
-Each .cursorrules file may have an accompanying README.md file in its folder
-Use this README to provide credit to the original author (if you borrowed or adapted rules) and a brief description of the .cursorrules file’s purpose
+- Use WebRTC for peer-to-peer audio communication
+- Create a custom hook (`useWebRTC`) to encapsulate WebRTC connection logic
+- Implement simple signaling using Supabase Realtime or a similar lightweight solution
+- Provide clear UI indicators for connection status (connecting, connected, disconnected)
+- Handle ICE candidate exchange and session negotiation transparently
 
-// Maintenance and updates
-Update the README.md file when adding new .cursorrules files, placing them in the correct category
-Ensure all links in the README.md file are relative and correct
-When updating the README.md, ensure the table of contents remains accurate
-When adding new categories, update both the 'Contents' and 'Rules' sections of the README.md
-Regularly review and update categorization as the Persuade app grows and new technologies are introduced
+## Audio Processing
 
-// Best practices
-Maintain consistency in capitalization and punctuation throughout the repository
-When referencing Cursor AI, always use correct capitalization and spacing
-When adding examples or explanations, focus on practical use cases for the Persuade voice call simulator
-If a .cursorrules file fits multiple categories, place it in the most relevant one and cross-reference it in others if necessary
-Keep the 'Other' category for .cursorrules files that don’t fit neatly into the main categories
+- Process audio with Web Audio API for quality enhancement
+- Implement voice activity detection to improve interaction quality
+- Add audio recording for playback and review functionality
+- Create proper audio visualization components for engagement
+- Ensure cross-browser compatibility with appropriate fallbacks
 
-// Additional insights
-.cursorrules files are repo-specific “Rules for AI”
-.cursorrules files should be placed in the root of the repository or within 'rules' as specified
-The content of .cursorrules files will be appended to the global “Rules for AI” settings in Cursor
-Focus on providing context for Persuade’s unique real-time voice features and GPT-4o interactions
-Rules can cover both code generation and code understanding aspects for Cursor AI users
-Consider including guidelines for:
-  - Next.js + Tailwind CSS/Chakra UI usage
-  - Node.js/Express + Socket.io setup on AWS EC2
-  - GPT-4o integration details (e.g., environment variables, call flow logic)
-  - WebRTC or other voice streaming mechanisms if applicable
+## Database Integration
+
+- Use Supabase for authentication, storage, and database needs
+- Create typed database schemas with proper relations
+- Implement optimistic UI updates for a responsive feel
+- Set up proper database indexes for query performance
+- Utilize Supabase RLS (Row Level Security) for data protection
+
+## Styling Guidelines
+
+- Follow the design system with consistent use of:
+  - Color: gradients from indigo-500 to purple-600 for primary elements
+  - Typography: Inter font with appropriate size hierarchy
+  - Spacing: consistent padding and margin scales
+  - Animation: subtle, purposeful animations with 300ms transitions
+- Use Tailwind CSS utility classes with consistent organization
+- Create custom utility classes in globals.css for repeated patterns
+
+## State Management
+
+- Use React hooks for component-level state
+- Implement context providers for shared state (auth, theme, simulations)
+- Consider SWR or React Query for server state management
+- Create custom hooks for complex state logic
+- Maintain consistent loading and error states across the application
+
+## Performance Optimization
+
+- Implement code splitting for optimal bundle sizes
+- Use `next/image` for optimized image delivery
+- Minimize JavaScript with selective hydration
+- Optimize WebRTC connection parameters for different network conditions
+- Add appropriate caching headers for static assets
+
+## Accessibility
+
+- Maintain WCAG 2.1 AA compliance throughout the application
+- Implement proper keyboard navigation for all interactive elements
+- Ensure sufficient color contrast for text elements
+- Add appropriate ARIA attributes for custom components
+- Test with screen readers for proper announcement
+
+## Documentation
+
+- Document all API endpoints with TypeScript interfaces
+- Add JSDoc comments for complex functions
+- Create README files for major feature directories
+- Maintain up-to-date setup instructions
+- Document state management patterns and data flow

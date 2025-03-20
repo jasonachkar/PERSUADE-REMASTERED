@@ -93,7 +93,8 @@ export default function Dashboard() {
             {/*Products and Services*/}
             <section className="mt-12">
                 <h2 className="text-2xl font-bold mb-4">Products and Services</h2>
-
+                <Link href="/add-product"> Add New Product
+                </Link>
             </section>
         </div>
     )
