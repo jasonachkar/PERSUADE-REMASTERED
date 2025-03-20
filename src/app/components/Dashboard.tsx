@@ -76,7 +76,7 @@ export default function Dashboard() {
                     </CardContent>
                 </Card>
             </div>
-
+            {/*Start Simulation Button*/}
             <div className="flex justify-center mt-12">
                 <Link href="/simulation">
                     <button className="relative overflow-hidden group bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-medium px-8 py-3 rounded-full shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0">
@@ -90,6 +90,11 @@ export default function Dashboard() {
                     </button>
                 </Link>
             </div>
+            {/*Products and Services*/}
+            <section className="mt-12">
+                <h2 className="text-2xl font-bold mb-4">Products and Services</h2>
+
+            </section>
         </div>
     )
 }

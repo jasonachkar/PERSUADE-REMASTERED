@@ -36,7 +36,7 @@ export default function RootLayout({
             </div>
 
             <nav className='navbar flex items-center justify-center space-x-4 flex-1'>
-              <Link href="/" className="navLink">
+              <Link href="/dashboard" className="navLink">
                 <button className="px-4 py-2 rounded-md hover:bg-gray-100">Home</button>
               </Link>
               <Link href="/about" className="navLink">
@@ -49,12 +49,12 @@ export default function RootLayout({
 
             <div className="flex items-center space-x-3">
               <Link href="/signin">
-                <button className="bg-gray-50 text-black hover:bg-gray-100 hover:mb-1.5 px-4 py-2 rounded-md">
+                <button className="bg-white text-black hover:bg-gray-200 hover:mb-1.5 px-4 py-2 rounded-md">
                   Sign In
                 </button>
               </Link>
               <Link href="/signup">
-                <button className="bg-blue-500 hover:bg-blue-600 hover:mb-1.5 text-white px-4 py-2 rounded-md">
+                <button className="bg-indigo-600 hover:bg-indigo-800 hover:mb-1.5 text-white px-4 py-2 rounded-md">
                   Register
                 </button>
               </Link>
