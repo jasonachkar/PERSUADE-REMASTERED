@@ -33,7 +33,7 @@ export default function AddProductForm() {
         try {
             const res = await fetch('/api/submit', {
                 method: 'POST',
-                body: formData, // Use FormData instead of JSON for file uploads
+                body: formData,
             });
 
             if (!res.ok) {
