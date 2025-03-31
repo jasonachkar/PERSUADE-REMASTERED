@@ -1,9 +1,45 @@
+"use client"
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { BarChart2, LucideTimer, PhoneCall } from 'lucide-react';
+import { BarChart2, LucideTimer, PhoneCall, Plus } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { ProductCard } from './ui/productCard';
+
+// Define product interface
+interface Product {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    image: string | null;
+}
 
 export default function Dashboard() {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/submit');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                const data = await response.json();
+                setProducts(data);
+            } catch (err: unknown) {
+                console.error('Error fetching products:', err);
+                setError(err instanceof Error ? err.message : 'Failed to load products');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadProducts();
+    }, []);
+
     return (
         <div className='bg-gradient-to-b from-white to-gray-50 container mx-auto px-4 py-16'>
             <div className="max-w-3xl mx-auto text-center mb-12 space-y-4">
@@ -92,9 +128,64 @@ export default function Dashboard() {
             </div>
             {/*Products and Services*/}
             <section className="mt-12">
-                <h2 className="text-2xl font-bold mb-4">Products and Services</h2>
-                <Link href="/add-product"> Add New Product
-                </Link>
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 animate-slide-up">
+                        Products and Services
+                    </h2>
+
+                    <Link href="/add-product">
+                        <button className="group relative overflow-hidden rounded-full px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 hover:-translate-y-1 active:translate-y-0">
+                            <span className="relative z-10 flex items-center gap-2">
+                                <Plus size={20} className="transition-transform duration-300 group-hover:rotate-180" />
+                                <span className="font-medium">Add Product</span>
+                            </span>
+                            <div className="absolute inset-0 bg-white/20 translate-y-12 group-hover:translate-y-0 transition-transform duration-300" />
+                        </button>
+                    </Link>
+                </div>
+
+                {loading ? (
+                    <p className="text-center text-gray-500">Loading products...</p>
+                ) : error ? (
+                    <p className="text-center text-red-500">{error}</p>
+                ) : products.length === 0 ? (
+                    <div className="text-center py-12">
+                        <p className="text-gray-500 mb-4">No products found</p>
+                        <Link href="/add-product">
+                            <button className="group relative overflow-hidden rounded-full px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 hover:-translate-y-1 active:translate-y-0">
+                                <span className="relative z-10 flex items-center justify-center gap-2">
+                                    <Plus size={20} className="transition-transform duration-300 group-hover:rotate-180" />
+                                    <span className="font-medium">Add Your First Product</span>
+                                </span>
+                                <div className="absolute inset-0 bg-white/20 translate-y-12 group-hover:translate-y-0 transition-transform duration-300" />
+                            </button>
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {products.map(product => (
+                            <ProductCard
+                                key={product.id}
+                                product={product}
+                                onProductUpdated={() => {
+                                    // Refresh the product list
+                                    setLoading(true);
+                                    fetch('/api/submit')
+                                        .then(res => res.json())
+                                        .then(data => {
+                                            setProducts(data);
+                                            setLoading(false);
+                                        })
+                                        .catch(err => {
+                                            console.error('Error refreshing products:', err);
+                                            setError('Failed to refresh products');
+                                            setLoading(false);
+                                        });
+                                }}
+                            />
+                        ))}
+                    </div>
+                )}
             </section>
         </div>
     )

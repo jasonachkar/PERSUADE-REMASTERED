@@ -9,13 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.12.12",
+    "@langchain/core": "^0.3.43",
+    "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/supabase-js": "^2.49.1",
     "clsx": "^2.1.1",
+    "langchain": "^0.3.19",
     "lucide-react": "^0.483.0",
-    "next": "15.2.2",
+    "next": "^15.2.3",
+    "openai": "^4.89.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "supabase": "^2.19.7",
+    "svix": "^1.62.0",
     "tailwind-merge": "^3.0.2"
   },
   "devDependencies": {
