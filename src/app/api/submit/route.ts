@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { auth } from '@clerk/nextjs/server';
 
 // Add this helper function at the top of the file
 function getPublicImageUrl(supabase: SupabaseClient, bucketName: string, filePath: string) {
@@ -27,6 +28,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
     try {
+        const { userId } = await auth();
         const formData = await request.formData();
         const name = formData.get('name') as string;
         const description = formData.get('description') as string;
@@ -64,7 +66,8 @@ export async function POST(request: Request) {
             name,
             description,
             price: parseFloat(price),
-            image: imageUrl
+            image: imageUrl,
+            user_id: userId
         }).select();
 
         if (error) {
@@ -86,6 +89,7 @@ export async function DELETE(request: Request) {
     try {
         const url = new URL(request.url);
         const id = url.searchParams.get('id');
+        const { userId } = await auth();
 
         console.log('Attempting to delete product with ID:', id);
 
@@ -93,7 +97,14 @@ export async function DELETE(request: Request) {
             console.error('No ID provided');
             return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });
         }
-
+        const { data: user, error: userError } = await supabase.from('products').select('user_id').eq('id', id).single();
+        if (userError) {
+            console.error('Error fetching product:', userError);
+            return NextResponse.json({ error: userError.message }, { status: 400 });
+        }
+        if (user?.user_id !== userId) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
         // First get the product to check if it has an image
         const { data: product, error: fetchError } = await supabase
             .from('products')

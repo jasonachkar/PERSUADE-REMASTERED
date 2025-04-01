@@ -161,7 +161,7 @@ export default function Simulation() {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to evaluate call');
+                throw new Error(response.statusText);
             }
 
             const data = await response.json();
