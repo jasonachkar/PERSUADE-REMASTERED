@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { evaluationPrompt } from "@/lib/openai"
+import OpenAI from "openai";
 
 export async function POST(req: Request) {
     try {
@@ -20,48 +21,22 @@ export async function POST(req: Request) {
             );
         }
 
-        // Format messages into conversation string
-        const formattedMessages = messages
-            .filter((m: { role: string }) => m.role !== 'system')
-            .map((m: { role: string; content: string }) =>
-                `${m.role === 'assistant' ? 'AI' : 'User'}: ${m.content}`)
-            .join("\n");
 
         // Get the formatted evaluation prompt
         const formattedPrompt = await evaluationPrompt.format({
-            messages: formattedMessages
+            messages: messages
         });
+        const openai = new OpenAI();
+
 
         // Send evaluation request to OpenAI
-        const evaluationResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                model: "gpt-4",
-                messages: [
-                    {
-                        role: "system",
-                        content: formattedPrompt
-                    }
-                ],
-                temperature: 0.7
-            }),
-        });
+        const evaluationResponse = await openai.responses.create({
+            model: 'gpt-4o-mini',
+            input: formattedPrompt
+        })
+        console.log(evaluationResponse)
 
-        if (!evaluationResponse.ok) {
-            const errorText = await evaluationResponse.text();
-            console.error("OpenAI evaluation error:", evaluationResponse.status, errorText);
-            return NextResponse.json(
-                { error: "Failed to evaluate conversation" },
-                { status: 500 }
-            );
-        }
-
-        const evaluation = await evaluationResponse.json();
-        return NextResponse.json(JSON.parse(evaluation.choices[0].message.content));
+        return NextResponse.json(evaluationResponse);
     } catch (error) {
         console.error("Unhandled error in evaluate:", error);
         return NextResponse.json(

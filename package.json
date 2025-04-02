@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^4.13.23",
     "@clerk/nextjs": "^6.12.12",
     "@langchain/core": "^0.3.43",
     "@supabase/auth-ui-react": "^0.4.7",
