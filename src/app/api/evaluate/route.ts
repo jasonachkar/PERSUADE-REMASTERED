@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
-import { evaluationPrompt } from "@/lib/openai"
-import OpenAI from "openai";
+import { openai, EVALUATION_SYSTEM_PROMPT } from "@/lib/openai"
 
 export async function POST(req: Request) {
     try {
@@ -21,22 +20,24 @@ export async function POST(req: Request) {
             );
         }
 
-
-        // Get the formatted evaluation prompt
-        const formattedPrompt = await evaluationPrompt.format({
-            messages: messages
-        });
-        const openai = new OpenAI();
-
-
         // Send evaluation request to OpenAI
-        const evaluationResponse = await openai.responses.create({
+        const evaluationResponse = await openai.chat.completions.create({
             model: 'gpt-4o-mini-2024-07-18',
-            input: formattedPrompt
-        })
-        console.log(evaluationResponse)
+            messages: [
+                {
+                    role: 'system',
+                    content: EVALUATION_SYSTEM_PROMPT
+                },
+                {
+                    role: 'user',
+                    content: `Please evaluate this conversation:\n${JSON.stringify(messages)}`
+                }
+            ],
+            response_format: { type: "json_object" }
+        });
 
-        return NextResponse.json(evaluationResponse);
+        const evaluation = JSON.parse(evaluationResponse.choices[0].message.content);
+        return NextResponse.json(evaluation);
     } catch (error) {
         console.error("Unhandled error in evaluate:", error);
         return NextResponse.json(
