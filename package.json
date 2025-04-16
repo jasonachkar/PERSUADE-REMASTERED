@@ -17,19 +17,18 @@
     "clsx": "^2.1.1",
     "langchain": "^0.3.19",
     "lucide-react": "^0.483.0",
-    "next": "^14.2.25",
+    "next": "14.2.28",
     "openai": "^4.89.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "supabase": "^2.19.7",
     "svix": "^1.62.0",
-    "tailwind-merge": "^3.0.2"
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss": "3.4.1",
+    "postcss": "8.4.35",
+    "autoprefixer": "10.4.17"
   },
- 
   "devDependencies": {
-    "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -37,5 +36,4 @@
     "eslint-config-next": "14.2.28",
     "typescript": "^5"
   }
-
 }
