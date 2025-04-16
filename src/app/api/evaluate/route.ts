@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 
         // Send evaluation request to OpenAI
         const evaluationResponse = await openai.responses.create({
-            model: 'gpt-4o-mini',
+            model: 'gpt-4o-mini-2024-07-18',
             input: formattedPrompt
         })
         console.log(evaluationResponse)
