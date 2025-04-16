@@ -36,7 +36,9 @@ export async function POST(req: Request) {
             response_format: { type: "json_object" }
         });
 
-        const evaluation = JSON.parse(evaluationResponse.choices[0].message.content);
+        const content = evaluationResponse.choices[0].message.content;
+        if (!content) throw new Error('No evaluation content received');
+        const evaluation = JSON.parse(content);
         return NextResponse.json(evaluation);
     } catch (error) {
         console.error("Unhandled error in evaluate:", error);
